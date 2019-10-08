@@ -15,71 +15,89 @@ void remover(playlist *);
 node *next(node *);
 node *prv(node *);
 
-void inserir(playlist *l){
+void inserir(playlist *l)
+{
     node *novo;
     novo = (node *)malloc(sizeof(node));
     printf("Insira o nome da musica: ");
     scanf(" %[^\n]s", novo->music);
 
-    if ((*l) != NULL){
+    if ((*l) != NULL)
+    {
         node *aux = (*l);
-            while (aux->prox != NULL){
-                aux = aux->prox;
-            }
-                aux->prox = novo;
-                novo->ant = aux;
-                novo->prox = NULL;
-    }else{
+        while (aux->prox != NULL)
+        {
+            aux = aux->prox;
+        }
+        aux->prox = novo;
+        novo->ant = aux;
+        novo->prox = NULL;
+    }
+    else
+    {
         (*l) = novo;
         novo->prox = NULL;
         novo->ant = NULL;
     }
 }
-void show_list(playlist l){
+void show_list(playlist l)
+{
     node *aux;
     aux = l;
-        while (aux != NULL){
-            printf("%s\n", aux->music);
-            aux = aux->prox;
-        }
+    while (aux != NULL)
+    {
+        printf("%s\n", aux->music);
+        aux = aux->prox;
+    }
 }
-void remover(playlist *l){
+void remover(playlist *l)
+{
     node *aux = *l;
     char search[50];
-        printf("Qual eh a musica que deseja remover ?: ");
-        scanf(" %[^\n]s", search);
+    printf("Qual eh a musica que deseja remover ?: ");
+    scanf(" %[^\n]s", search);
 
-            while (aux != NULL && strcmp(search, aux->music) != 0)
-                    aux = aux->prox;
-                        if (aux == NULL){
-                            printf("\nMusica nao encontrada,tente novamente.\n");
-                        }else{
-                            if (aux == (*l)){
-                                (*l) = aux->prox;
-                            if ((*l) != NULL)
-                                (*l)->ant = NULL;
-                                free(aux);
-                                printf("\nmusica excluida.\n");
-                            }else{
-                                if (aux->prox != NULL){
-                                    aux->prox->ant = aux->ant;
-                                    aux->ant->prox = aux->prox;
-                                }else
-                                    aux->ant->prox = NULL;
-                                        free(aux);
-                                        printf("\nMusica excluida.\n");
-                            }
-                        }
+    while (aux != NULL && strcmp(search, aux->music) != 0)
+        aux = aux->prox;
+    if (aux == NULL)
+    {
+        printf("\nMusica nao encontrada,tente novamente.\n");
+    }
+    else
+    {
+        if (aux == (*l))
+        {
+            (*l) = aux->prox;
+            if ((*l) != NULL)
+                (*l)->ant = NULL;
+            free(aux);
+            printf("\nmusica excluida.\n");
+        }
+        else
+        {
+            if (aux->prox != NULL)
+            {
+                aux->prox->ant = aux->ant;
+                aux->ant->prox = aux->prox;
+            }
+            else
+                aux->ant->prox = NULL;
+            free(aux);
+            printf("\nMusica excluida.\n");
+        }
+    }
 }
-node *next(node *tocando){
+node *next(node *tocando)
+{
     if (tocando != NULL)
         tocando = tocando->prox;
-            return tocando;
+    return tocando;
 }
-node *prv(node *tocando){
+node *prv(node *tocando)
+{
     if (tocando != NULL)
         tocando = tocando->ant;
-            return tocando;
+    return tocando;
 }
 
 int menu()
@@ -95,46 +113,56 @@ int menu()
     printf("6 - anterior musica\n");
     printf("7 - musica sendo tocada\n");
     printf("0 - sair\n");
-        printf("Insira sua opcao: ");
+    printf("Insira sua opcao: ");
     scanf("%d", &comando);
 
     return comando;
 }
 
-int main(){
+int main()
+{
     playlist l = NULL;
     node *tocando = NULL;
     int comando;
 
-    do{
+    do
+    {
         comando = menu();
-        switch (comando){
+        switch (comando)
+        {
 
-        case 1:{
+        case 1:
+        {
             inserir(&l);
             break;
         }
-        case 2:{
+        case 2:
+        {
             remover(&l);
             break;
         }
-        case 3:{
+        case 3:
+        {
             tocando = l;
             break;
         }
-        case 4:{
+        case 4:
+        {
             show_list(l);
             break;
         }
-        case 5:{
+        case 5:
+        {
             tocando = next(tocando);
             break;
         }
-        case 6:{
+        case 6:
+        {
             tocando = prv(tocando);
             break;
         }
-        case 7:{
+        case 7:
+        {
             if (tocando == NULL)
                 printf("\nnenhuma musica sendo tocada\n");
             else
